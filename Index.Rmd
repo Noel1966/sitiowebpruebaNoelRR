@@ -1,0 +1,40 @@
+---
+title: "Sitio Web Prueba Inicio Non"
+author: "Noel Rodriguez Romero"
+date: "2023-12-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Se cargan las librerías necesarias para el análisis:
+library("siebanxicor")
+library("openxlsx")
+library("plotly")
+library("DT")
+# Configuro el token de Banxico:
+setToken("cbe5862d3e001790d93bc75ebc55d9676389e6b342959b08b8fc6587eb36f321")
+```
+
+# Introducción
+En esta página Web se hace un análisis muy secillo del desempeño en as remuneraciones medias srales en los sectores manufactureso y comercial, esto en compraración del pinidce nacional de precios al consumidor (INPC).
+
+Para ello se extrajeron [de las bases del Banco de México()
+
+
+```{r Tabla datos, echo=FALSE}
+# Definimos las series que se extraerán del Banxico:
+series = c("SL11439","SL11432","SP1")
+
+# Se extrae la información histórica definiendo las series a extraer y la fecha tanto inicial como final de los datos.
+tablaDatos = getSeriesData(series, '2008-01-01', '2023-09-01')
+
+datosEntrada=data.frame("Fecha"=tablaDatos$SP1$date,
+                        "INPC"=tablaDatos$SP1$value,
+                        "remunIndustrial"=tablaDatos$SL11439$value,
+                        "remunComercial"=tablaDatos$SL11432$value)
+
+datatable(datosEntrada)
+
+```
+
